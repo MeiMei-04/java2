@@ -1,5 +1,5 @@
-CREATE DATABASE QLSV;
-use QLSV;
+CREATE DATABASE QLSV_Java2;
+use QLSV_Java2;
 CREATE TABLE NganhHoc(
     manh varchar(10) PRIMARY KEY not null,
     tennh nvarchar(50) not null
@@ -29,3 +29,5 @@ INSERT INTO SinhVien (masv, manh, tensv, diem) VALUES
 SELECT masv,tensv,diem,tennh FROM SinhVien
 JOIN NganhHoc on SinhVien.manh = NganhHoc.manh
 SELECT * FROM NganhHoc
+UPDATE SinhVien SET manh =?,tensv=?,diem=? where masv = ?
+Delete SinhVien Where masv = ?

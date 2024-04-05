@@ -31,16 +31,60 @@ public class SinhVienDao {
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()) {
                 String masv = resultSet.getString("masv");
-                String tennh = resultSet.getString("tennh");
+                String manh = resultSet.getString("tennh");
                 String tensv = resultSet.getString("tensv");
                 double diem = resultSet.getDouble("diem");
-                SinhVien sv = new SinhVien(masv, tennh, tensv, diem);
+                SinhVien sv = new SinhVien(masv, manh, tensv, diem);
                 lst.add(sv);
             }
             return lst;
         } catch (SQLException e) {
             System.out.println("Mã Lỗi: " + e);
             return null;
+        }
+    }
+    public boolean addSinhVien(SinhVien sinhVien){
+        System.out.println("Mã sv: "+sinhVien.getMasv());
+        String sql = "INSERT INTO SinhVien (masv, manh, tensv, diem) VALUES\n"
+                +"(?, ?, ?, ?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,sinhVien.getMasv());
+            preparedStatement.setString(2,sinhVien.getManh());
+            preparedStatement.setString(3,sinhVien.getTensv());
+            preparedStatement.setDouble(4,sinhVien.getDiem());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Mã Lỗi: "+e);
+            return false;
+        }
+    }
+    public boolean updateSinhVien(SinhVien sinhVien){
+        String sql = "UPDATE SinhVien SET manh =?,tensv=?,diem=? where masv = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(4,sinhVien.getMasv());
+            preparedStatement.setString(1,sinhVien.getManh());
+            preparedStatement.setString(2,sinhVien.getTensv());
+            preparedStatement.setDouble(3,sinhVien.getDiem());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Mã Lỗi: "+e);
+            return false;
+        }
+    }
+    public boolean deletedSinhVien(SinhVien sinhVien){
+        String sql = "Delete SinhVien Where masv = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,sinhVien.getMasv());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Mã Lỗi: "+e);
+            return false;
         }
     }
 }
